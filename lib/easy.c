@@ -157,7 +157,11 @@ static long          init_flags;
 #elif !defined(HAVE_STRDUP)
 #define system_strdup curlx_strdup
 #else
+#ifdef _WIN32
 #define system_strdup _strdup
+#else
+#define system_strdup strdup
+#endif
 #endif
 
 #if defined(_MSC_VER) && defined(_DLL) && !defined(__POCC__)
