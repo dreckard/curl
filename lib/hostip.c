@@ -364,6 +364,57 @@ Curl_fetch_addr(struct connectdata *conn,
 }
 
 /*
+ * Shuffle the order of addresses inside addr.
+ */
+static void addr_shuffle(struct Curl_easy *data,
+                         Curl_addrinfo *addr)
+{
+  /* shuffle addresses if requested */
+  if(data->set.dns_shuffle_addresses && addr)  {
+    int i;
+    int num_addrs = Curl_num_addresses(addr);
+
+    infof(data, "Shuffling %i addresses", num_addrs);
+
+    if(num_addrs > 1)  {
+      Curl_addrinfo** nodes = malloc(num_addrs*sizeof(*nodes));
+      nodes[0] = addr;
+
+      if(nodes)  {
+
+        /* build a plain array of Curl_addrinfo pointers */
+        for(i = 1; i < num_addrs; i++)  {
+          nodes[i] = nodes[i-1]->ai_next;
+        }
+
+        unsigned int* rnd = malloc(num_addrs*sizeof(int));
+        if(rnd)  {
+          /* perform Fisher-Yates shuffle */
+          if(Curl_rand(data, (unsigned char*)rnd, num_addrs) == CURLE_OK)  {
+            Curl_addrinfo* tmp;
+            for(i = num_addrs - 1; i > 0; i--)  {
+              tmp = nodes[rnd[i] % (i + 1)];
+              nodes[rnd[i] % (i + 1)] = nodes[i];
+              nodes[i] = tmp;
+            }
+
+            /* relink list in the new order */
+            for(i = 1; i < num_addrs; i++)  {
+              nodes[i-1]->ai_next = nodes[i];
+            }
+
+            nodes[num_addrs-1]->ai_next = NULL;
+            addr = nodes[0];
+          }
+          free(rnd);
+        }
+        free(nodes);
+      }
+    }
+  }
+}
+
+/*
  * Curl_cache_addr() stores a 'Curl_addrinfo' struct in the DNS cache.
  *
  * When calling Curl_resolv() has resulted in a response with a returned
@@ -384,40 +435,8 @@ Curl_cache_addr(struct Curl_easy *data,
   struct Curl_dns_entry *dns2;
 
   /* shuffle addresses if requested */
-  if(data->set.dns_shuffle_addresses && addr) {
-    int i;
-    int num_addrs = Curl_num_addresses(addr);
-    infof(data, "Shuffling %i addresses", num_addrs);
-    if(num_addrs > 1) {
-      Curl_addrinfo** nodes = malloc(num_addrs*sizeof(*nodes));
-      nodes[0] = addr;
-      if(nodes) {
-        for(i = 1; i < num_addrs; i++) {
-          nodes[i] = nodes[i-1]->ai_next;
-        }
-        unsigned int* rnd = malloc(num_addrs*sizeof(int));
-        if(rnd) {
-            if(Curl_rand(data, (unsigned char*) rnd, num_addrs) == CURLE_OK) {
-              /* Fisher-Yates shuffle */
-              Curl_addrinfo* tmp;
-              for(i = num_addrs - 1; i > 0; i--) {
-                tmp = nodes[rnd[i] % (i+1)];
-                nodes[rnd[i] % (i+1)] = nodes[i];
-                nodes[i] = tmp;
-              }
-              /* relink in the new order */
-              for(i = 1; i < num_addrs; i++) {
-                nodes[i-1]->ai_next = nodes[i];
-              }
-              nodes[num_addrs-1]->ai_next = NULL;
-			  addr = nodes[0];
-            }
-            free(rnd);
-        }
-        
-        free(nodes);
-      }
-    }
+  if(data->set.dns_shuffle_addresses && addr)  {
+    addr_shuffle( data, addr );
   }
 
   /* Create an entry id, based upon the hostname and port */
