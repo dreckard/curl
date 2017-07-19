@@ -367,18 +367,18 @@ Curl_fetch_addr(struct connectdata *conn,
  * Shuffle the order of addresses inside addr.
  */
 static void addr_shuffle(struct Curl_easy *data,
-                         Curl_addrinfo *addr)
+                         Curl_addrinfo **addr)
 {
   /* shuffle addresses if requested */
-  if(data->set.dns_shuffle_addresses && addr)  {
+  if(data->set.dns_shuffle_addresses)  {
     int i;
-    int num_addrs = Curl_num_addresses(addr);
-
-    infof(data, "Shuffling %i addresses", num_addrs);
+    int num_addrs = Curl_num_addresses(*addr);
 
     if(num_addrs > 1)  {
       Curl_addrinfo** nodes = malloc(num_addrs*sizeof(*nodes));
-      nodes[0] = addr;
+      nodes[0] = *addr;
+
+      infof(data, "Shuffling %i addresses", num_addrs);     
 
       if(nodes)  {
 
@@ -404,7 +404,7 @@ static void addr_shuffle(struct Curl_easy *data,
             }
 
             nodes[num_addrs-1]->ai_next = NULL;
-            addr = nodes[0];
+            *addr = nodes[0];
           }
           free(rnd);
         }
@@ -436,7 +436,7 @@ Curl_cache_addr(struct Curl_easy *data,
 
   /* shuffle addresses if requested */
   if(data->set.dns_shuffle_addresses && addr)  {
-    addr_shuffle( data, addr );
+    addr_shuffle(data, &addr);
   }
 
   /* Create an entry id, based upon the hostname and port */
