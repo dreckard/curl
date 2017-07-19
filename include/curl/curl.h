@@ -1785,6 +1785,9 @@ typedef enum {
   /* DNS cache timeout */
   CINIT(DNS_SHUFFLE_ADDRESSES, LONG, 266),
 
+  /* shuffle addresses before use when DNS returns multiple */
+  CINIT(DNS_SHUFFLE_ADDRESSES, LONG, 268),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 
