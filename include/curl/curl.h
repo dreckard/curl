@@ -1782,9 +1782,6 @@ typedef enum {
   /* Suppress proxy CONNECT response headers from user callbacks */
   CINIT(SUPPRESS_CONNECT_HEADERS, LONG, 265),
 
-  /* DNS cache timeout */
-  CINIT(DNS_SHUFFLE_ADDRESSES, LONG, 266),
-
   /* shuffle addresses before use when DNS returns multiple */
   CINIT(DNS_SHUFFLE_ADDRESSES, LONG, 268),
 
