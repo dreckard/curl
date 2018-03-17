@@ -112,7 +112,6 @@ man_MANS =                                      \
   CURLOPT_DNS_LOCAL_IP4.3                       \
   CURLOPT_DNS_LOCAL_IP6.3                       \
   CURLOPT_DNS_SERVERS.3                         \
-  CURLOPT_DNS_SHUFFLE_ADDRESSES.3               \
   CURLOPT_DNS_USE_GLOBAL_CACHE.3                \
   CURLOPT_EGDSOCKET.3                           \
   CURLOPT_ERRORBUFFER.3                         \
@@ -259,6 +258,7 @@ man_MANS =                                      \
   CURLOPT_SEEKFUNCTION.3                        \
   CURLOPT_SERVICE_NAME.3                        \
   CURLOPT_SHARE.3                               \
+  CURLOPT_SHUFFLE_HOST_ADDRESSES.3              \
   CURLOPT_SOCKOPTDATA.3                         \
   CURLOPT_SOCKOPTFUNCTION.3                     \
   CURLOPT_SOCKS5_AUTH.3                         \

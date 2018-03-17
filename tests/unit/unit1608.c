@@ -50,7 +50,7 @@ UNITTEST_START
   struct Curl_easy *easy = curl_easy_init();
   abort_unless(easy, "out of memory");
 
-  code = curl_easy_setopt(easy, CURLOPT_DNS_SHUFFLE_ADDRESSES, 1L);
+  code = curl_easy_setopt(easy, CURLOPT_SHUFFLE_HOST_ADDRESSES, 1L);
   abort_unless(code == CURLE_OK, "curl_easy_setopt failed");
 
   /* Shuffle repeatedly and make sure that the list changes */

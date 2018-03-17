@@ -2,7 +2,7 @@
 <info>
 <keywords>
 unittest
-curlopt_dns_shuffle_addresses
+curlopt_shuffle_host_addresses
 </keywords>
 </info>
 
@@ -16,7 +16,7 @@ none
 unittest
 </features>
  <name>
-verify DNS shuffling
+verify host address shuffling
  </name>
 <tool>
 unit1608

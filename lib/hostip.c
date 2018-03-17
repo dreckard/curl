@@ -443,7 +443,7 @@ Curl_cache_addr(struct Curl_easy *data,
   struct Curl_dns_entry *dns2;
 
   /* shuffle addresses if requested */
-  if(data->set.dns_shuffle_addresses) {
+  if(data->set.shuffle_host_addresses) {
     Curl_shuffle_addr(data, &addr);
   }
 

@@ -1845,7 +1845,7 @@ typedef enum {
   CINIT(HAPROXYPROTOCOL, LONG, 274),
 
   /* shuffle addresses before use when DNS returns multiple */
-  CINIT(DNS_SHUFFLE_ADDRESSES, LONG, 275),
+  CINIT(SHUFFLE_HOST_ADDRESSES, LONG, 275),
 
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;

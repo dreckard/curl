@@ -2561,8 +2561,8 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option,
       return CURLE_BAD_FUNCTION_ARGUMENT;
     data->set.happy_eyeballs_timeout = arg;
     break;
-  case CURLOPT_DNS_SHUFFLE_ADDRESSES:
-    data->set.dns_shuffle_addresses = (0 != va_arg(param, long)) ? TRUE:FALSE;
+  case CURLOPT_SHUFFLE_HOST_ADDRESSES:
+    data->set.shuffle_host_addresses = (0 != va_arg(param, long)) ? TRUE:FALSE;
     break;
   default:
     /* unknown tag and its companion, just ignore: */

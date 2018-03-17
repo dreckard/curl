@@ -20,14 +20,14 @@
 .\" *
 .\" **************************************************************************
 .\"
-.TH CURLOPT_DNS_SHUFFLE_ADDRESSES 3 "3 March 2018" "libcurl 7.60.0" "curl_easy_setopt options"
+.TH CURLOPT_SHUFFLE_HOST_ADDRESSES 3 "17 March 2018" "libcurl 7.60.0" "curl_easy_setopt options"
 .SH NAME
-CURLOPT_DNS_SHUFFLE_ADDRESSES \- Shuffle addresses when a hostname returns more than one
+CURLOPT_SHUFFLE_HOST_ADDRESSES \- Shuffle addresses when a hostname returns more than one
 .SH SYNOPSIS
 .nf
 #include <curl/curl.h>
 
-CURLcode curl_easy_setopt(CURL *handle, CURLOPT_DNS_SHUFFLE_ADDRESSES, long onoff);
+CURLcode curl_easy_setopt(CURL *handle, CURLOPT_SHUFFLE_HOST_ADDRESSES, long onoff);
 .fi
 .SH DESCRIPTION
 When a name is resolved and more than one A record is returned, shuffle all
@@ -53,7 +53,7 @@ All
 CURL *curl = curl_easy_init();
 if(curl) {
   curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
-  curl_easy_setopt(curl, CURLOPT_DNS_SHUFFLE_ADDRESSES, 1L);
+  curl_easy_setopt(curl, CURLOPT_SHUFFLE_HOST_ADDRESSES, 1L);
 
   curl_easy_perform(curl);
 
